@@ -6,6 +6,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function Home() {
   const [stage, setStage] = useState<'landing' | 'zoom' | 'video'>('landing')
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleClick = () => {
     if (stage === 'landing' && !isTransitioning) {
@@ -161,7 +166,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Ambient particles effect */}
-      {stage === 'landing' && (
+      {stage === 'landing' && mounted && (
         <div className="absolute inset-0 pointer-events-none z-30">
           {[...Array(20)].map((_, i) => (
             <motion.div
