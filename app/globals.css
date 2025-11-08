@@ -1,26 +1,71 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors - Primary */
+  --color-primary-50: #E6F0FF;
+  --color-primary-100: #CCE0FF;
+  --color-primary-200: #99C2FF;
+  --color-primary-300: #66A3FF;
+  --color-primary-400: #3385FF;
+  --color-primary-500: #0066FF;
+  --color-primary-600: #0052CC;
+  --color-primary-700: #003D99;
+  --color-primary-800: #002966;
+  --color-primary-900: #001433;
+
+  /* Colors - Accent */
+  --color-accent-50: #F3E5FF;
+  --color-accent-100: #E6CCFF;
+  --color-accent-200: #CC99FF;
+  --color-accent-300: #B366FF;
+  --color-accent-400: #9933FF;
+  --color-accent-500: #8000FF;
+  --color-accent-600: #6600CC;
+  --color-accent-700: #4D0099;
+  --color-accent-800: #330066;
+  --color-accent-900: #1A0033;
+
+  /* Colors - Neutral */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-50: #F9FAFB;
+  --color-neutral-100: #F3F4F6;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-300: #D1D5DB;
+  --color-neutral-400: #9CA3AF;
+  --color-neutral-500: #6B7280;
+  --color-neutral-600: #4B5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1F2937;
+  --color-neutral-900: #111827;
+  --color-neutral-950: #030712;
+
+  /* Border Radius */
+  --radius-button: 0.75rem;
+  --radius-card: 1.25rem;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(0, 102, 255, 0.3);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--color-neutral-200);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-900);
+  font-family: var(--font-body, system-ui, sans-serif);
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glow-primary {
+    box-shadow: var(--shadow-glow);
+  }
 }
