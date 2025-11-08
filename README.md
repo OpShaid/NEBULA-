@@ -25,17 +25,6 @@ Think of it as **Notion meets Figma meets a sci-fi OS** - a workspace where ever
 - Color-coded status indicators with pulse effects
 - Staggered entry animations for visual hierarchy
 
-### 🤖 **AI Insights Orb**
-- Expandable AI assistant interface
-- Pulsing glow effect with gradient animation
-- Real-time insights and suggestions
-- Spring-based modal transitions
-
-### 📊 **Activity Heatmap Visualization**
-- GitHub-style activity tracking
-- 365-day activity visualization
-- Hover effects with smooth scale transitions
-- Gradient color mapping based on intensity
 
 ### 🎭 **Motion Design System**
 - Consistent animation timings and easing curves
@@ -224,4 +213,3 @@ MIT License - feel free to use for learning and inspiration!
 
 **Made with ❤️ and lots of ☕**
 
-*This project demonstrates mastery in modern web development, UI/UX design, and motion design - a true portfolio showpiece.*
