@@ -52,8 +52,16 @@
   border-color: var(--color-neutral-200);
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-  background: var(--color-neutral-50);
+  background: #000000;
   color: var(--color-neutral-900);
   font-family: var(--font-body, system-ui, sans-serif);
 }
