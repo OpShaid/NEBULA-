@@ -140,7 +140,7 @@ export default function Home() {
                     playsInline
                     className="w-full h-full object-cover"
                   >
-                    <source src="/video.mp4" type="video/mp4" />
+                    <source src="C:\Users\user01\Downloads\rhdpobik3qlerfz4mook.mp4" type="video/mp4" />
                   </video>
 
                   {/* Fallback if no video */}
