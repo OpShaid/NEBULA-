@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Home() {
-  const [stage, setStage] = useState<'landing' | 'zoom' | 'video'>('landing')
+  const [stage, setStage] = useState<'landing' | 'zoom' | 'video' | 'credits'>('landing')
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -17,12 +18,21 @@ export default function Home() {
       setIsTransitioning(true)
       setStage('zoom')
 
-      // Hold zoom for 3-5 seconds, then transition to video
+      // Smooth zoom transition - hold for 3 seconds
       setTimeout(() => {
         setStage('video')
         setIsTransitioning(false)
-      }, 4000) // 4 seconds hold
+      }, 3000)
     }
+  }
+
+  const handleVideoEnd = () => {
+    setStage('credits')
+    // After showing credits for 3 seconds, go back to landing
+    setTimeout(() => {
+      setStage('landing')
+      setIsTransitioning(false)
+    }, 3000)
   }
 
   const goBack = () => {
@@ -81,86 +91,82 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* Zoom Stage */}
+        {/* Zoom Stage - Smoother Animation */}
         {stage === 'zoom' && (
           <motion.div
             key="zoom"
             initial={{ scale: 1 }}
-            animate={{ scale: 1.5 }}
-            transition={{ duration: 2, ease: [0.43, 0.13, 0.23, 0.96] }}
+            animate={{ scale: 2.5 }}
+            transition={{
+              duration: 3,
+              ease: [0.25, 0.46, 0.45, 0.94] // Smoother easing curve
+            }}
             className="absolute inset-0"
           >
             <motion.div
               initial={{ opacity: 1 }}
-              animate={{ opacity: 0.3 }}
-              transition={{ duration: 2 }}
+              animate={{ opacity: 0 }}
+              transition={{ duration: 3, ease: "easeInOut" }}
               className="absolute inset-0 bg-black z-10"
             />
             <img
               src="/background.webp"
               alt="Background"
-              className="w-full h-full object-cover blur-sm"
+              className="w-full h-full object-cover blur-md"
             />
           </motion.div>
         )}
 
-        {/* Video Stage */}
+        {/* Video Stage - Fullscreen */}
         {stage === 'video' && (
           <motion.div
             key="video"
-            initial={{ opacity: 0, scale: 1.5, rotateY: -90 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{
-              duration: 1.5,
-              ease: [0.43, 0.13, 0.23, 0.96],
-              rotateY: { duration: 1.2, ease: "easeInOut" }
-            }}
-            className="absolute inset-0"
-            style={{ perspective: 1000 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 bg-black"
           >
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20">
-              <div className="relative w-full max-w-6xl aspect-video">
-                <motion.div
-                  initial={{ boxShadow: "0 0 0 rgba(139, 92, 246, 0)" }}
-                  animate={{
-                    boxShadow: [
-                      "0 0 60px rgba(139, 92, 246, 0.3)",
-                      "0 0 100px rgba(139, 92, 246, 0.5)",
-                      "0 0 60px rgba(139, 92, 246, 0.3)",
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full rounded-2xl overflow-hidden"
-                >
-                  {/* Placeholder for video - replace with your actual video */}
-                  <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                  >
-                    <source src="C:\Users\user01\Downloads\rhdpobik3qlerfz4mook.mp4" type="video/mp4" />
-                  </video>
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              playsInline
+              onEnded={handleVideoEnd}
+              className="w-full h-full object-cover"
+            >
+              <source src="/nebula-video.mp4" type="video/mp4" />
+            </video>
+          </motion.div>
+        )}
 
-                  {/* Fallback if no video */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-600 to-blue-600">
-                    <p className="text-white text-3xl font-light">Your Video Here</p>
-                  </div>
-                </motion.div>
-
-                {/* Back button */}
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  onClick={goBack}
-                  className="absolute -bottom-20 left-1/2 -translate-x-1/2 px-8 py-4 bg-white/10 backdrop-blur-md text-white rounded-full hover:bg-white/20 transition-all duration-300 border border-white/20"
-                >
-                  <span className="text-lg font-light tracking-wider">BACK TO START</span>
-                </motion.button>
-              </div>
-            </div>
+        {/* Credits Stage */}
+        {stage === 'credits' && (
+          <motion.div
+            key="credits"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute inset-0 bg-black flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: [0.43, 0.13, 0.23, 0.96] }}
+              className="text-center"
+            >
+              <h2 className="text-6xl md:text-8xl font-bold text-white mb-4 tracking-tight">
+                NEBULA
+              </h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="text-2xl md:text-3xl text-white/70 font-light tracking-wider"
+              >
+                Made by Shaid
+              </motion.p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
